@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import Calendar from './components/Calendar';
 import Feed from './components/Feed';
 import DrawingPage from './components/DrawingPage';
@@ -7,7 +7,6 @@ import IntroPage from './components/IntroPage';
 import Auth from './components/AuthPage';
 import './components/CalendarPage.css';
 import './components/AuthPage.module.css';
-
 
 const Sidebar = () => {
   const location = useLocation();
