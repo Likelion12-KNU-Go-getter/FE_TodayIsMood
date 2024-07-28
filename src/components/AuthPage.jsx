@@ -159,7 +159,7 @@ function Auth() {
 
   return (
 
-    <div className={styles.authBackground}> {/* 확인 필요 */}
+    <div className={styles.authBackground}> 
       {content}
     </div>
   );
