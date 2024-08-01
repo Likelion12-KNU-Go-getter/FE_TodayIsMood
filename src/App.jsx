@@ -5,7 +5,10 @@ import axios from 'axios';
 import Calendar from './components/Calendar';
 import Feed from './components/Feed';
 import DrawingPage from './components/DrawingPage';
+import IntroPage from './components/IntroPage';
+import Auth from './components/AuthPage';
 import './components/CalendarPage.css';
+import './components/AuthPage.module.css';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -28,6 +31,7 @@ const Sidebar = () => {
 const App = () => {
   const [posts, setPosts] = useState([]);
   const [message, setMessage] = useState('');
+  const [authenticated, setAuthenticated] = useState(true);
 
   // API를 통해 모든 그림일기 가져오기
   useEffect(() => {
@@ -78,17 +82,45 @@ const App = () => {
 
   return (
     <Router>
-      <div className="app-container">
-        <Sidebar />
-        <div className="main-content">
-          <Routes>
-            <Route path="/calendar" element={<Calendar posts={posts} onAddPost={handleSavePost} />} />
-            <Route path="/feed" element={<Feed posts={posts} onSave={handleSavePost} />} />
-            <Route path="/drawing" element={<DrawingPage onSave={handleSavePost} />} />
-          </Routes>
-          {message && <div className="message">{message}</div>} {/* 메시지 표시 */}
-        </div>
-      </div>
+      <Routes>
+        {/* Auth와 IntroPage는 같은 authBackground 레이아웃을 사용 */}
+        <Route
+          path="/auth"
+          element={
+            <div className="authBackground">
+              <Auth setAuthenticated={setAuthenticated} />
+            </div>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <div className="authBackground">
+              <IntroPage />
+            </div>
+          }
+        />
+        {/* 인증된 사용자만 접근할 수 있는 다른 페이지들 */}
+        <Route
+          path="*"
+          element={
+            <div className="app-container">
+              {authenticated && <Sidebar />}
+              <div className="main-content">
+                <Routes>
+                  {authenticated && (
+                    <>
+                      <Route path="/calendar" element={<Calendar posts={posts} onAddPost={handleSavePost} />} />
+                      <Route path="/feed" element={<Feed posts={posts} onSave={handleSavePost} />} />
+                      <Route path="/drawing" element={<DrawingPage onSave={handleSavePost} />} />
+                    </>
+                  )}
+                </Routes>
+              </div>
+            </div>
+          }
+        />
+      </Routes>
     </Router>
   );
 };

@@ -9,7 +9,7 @@ function LogIn({ setMode }) {
 
   const handleLogin = () => {
     const userData = { name, password };
-    fetch("http://localhost:3001/login", {
+    fetch('/api/login', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
@@ -70,7 +70,7 @@ const handleSignup = () => {
   const userData = { name, password };
 
   // 회원가입 요청
-  fetch("http://localhost:3001/signin", {
+  fetch('/api/signup', {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userData),
@@ -134,7 +134,7 @@ const handleSignup = () => {
 function Auth() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [mode, setMode] = useState("SIGNUP");
+  const [mode, setMode] = useState("LOGIN");
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
